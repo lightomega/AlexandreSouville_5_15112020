@@ -1,0 +1,25 @@
+{
+  "name": "front-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass --watch ./scss/style.scss:./css/style.css",
+    "prod": "sass ./scss/style.scss:./style.css",
+    "prefix": "postcss ./css/style.css --use autoprefixer -d ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lightomega/AlexandreSouville_5_25112019.git"
+  },
+  "author": "Souville Alexandre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lightomega/AlexandreSouville_5_25112019/issues"
+  },
+  "homepage": "https://github.com/lightomega/AlexandreSouville_5_25112019#readme",
+  "dependencies": {
+    "bootstrap": "^5.0.2",
+    "sass": "1.35.5"
+  }
+}
