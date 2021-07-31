@@ -10748,3 +10748,7 @@ textarea.form-control-lg {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.panier span {
+  padding-left: 5px;
+}
