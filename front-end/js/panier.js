@@ -1,49 +1,70 @@
 (async function() {
-    const articles = await getArticles()
-    console.log(articles)
+    
+    
+    
+    const articleName = document.querySelector(".card-title")
+    let articlePrice = document.getElementById("prix-article")
+    const articleId = document.querySelector(`${article._id}`)
+    articlePrice = parseInt(articlePrice.innerHTML)/100
+    console.log(articleId)
+    
+    
+    let carts = document.querySelector(".add-cart")
+
+    
+        carts.addEventListener('click', () => {
+    
+            let article = {
+                name : articleName.innerHTML,
+                price : articlePrice,
+                quantity : 0
+            }
+            cartNumbers(article)
+            
+        })
+    
+    
+    
+    
 })()
 
-function getArticles() {
-    return fetch("http://localhost:3000/api/furniture")
-        .then(function(http_idResponse) {
-            return http_idResponse.json()
-        })
-        .then(function(articles) {
-           return articles
-        })
-        .catch(function(error) {
-            alert(error)
-        })
-}
 
-let carts = document.querySelectorAll('.add-cart')
 
-for (let i=0; i < carts.length; i++) {
-    carts[i].addEventListener('click', () => {
-        cartNumbers()
-    })
-}
+
+
+
+
 
 function onLoadCartNumbers() {
-    let productNumbers = localStorage.getItem('cartNumbers')
+    let articleNumbers = localStorage.getItem('articleNumbers')
 
-    if(productNumbers) {
-        document.querySelector('.panier span').textContent = productNumbers
+    if(articleNumbers) {
+        document.querySelector('.panier span').textContent = articleNumbers
     }
 }
 
-function cartNumbers() {
-    let productNumbers = localStorage.getItem('cartNumbers')
-    
+function cartNumbers(article) {
+    console.log("le produit est ", article.name)
+    let articleNumbers = localStorage.getItem('articleNumbers')
+    articleNumbers = parseInt(articleNumbers)
+    let articleInCard = []
 
-    productNumbers = parseInt(productNumbers)
-    if(productNumbers){
-        localStorage.setItem('cartNumbers', productNumbers + 1)
-        document.querySelector('.panier span').textContent = productNumbers + 1
+       
+    if(localStorage.getItem("article") !== null && article.quantity !== null){
+        articleInCard[article.quantity] += 1
+        articleInCard = JSON.parse(localStorage.getItem("article"))
+        document.querySelector('.panier span').textContent = articleNumbers + 1
+        localStorage.setItem('articleNumbers', articleNumbers + 1)
     } else {
-        localStorage.setItem('cartNumbers', 1)
+        localStorage.setItem('articleNumbers', 1)
+        
+        
         document.querySelector('.panier span').textContent = 1
-    }
+    } 
+    articleInCard.push(article)
+    localStorage.setItem("article", JSON.stringify(articleInCard))
+    
+    console.log(articleInCard)
     
 }
 
