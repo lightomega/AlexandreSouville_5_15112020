@@ -2,14 +2,18 @@
 (async function() {
     const articleId = getArticleId()
     const article = await getArticle(articleId)
+    
+
     console.log(article)
     displayArticle(article)
 
-    const articleName = document.querySelector(".card-title")
-    let articlePrice = document.getElementById("prix-article")
     
-    articlePrice = parseInt(articlePrice.innerHTML)/100
-    console.log(articleId)
+    const articleName = document.querySelector(".card-title")
+    let articlePrice = article.price
+    const articleImage = article.imageUrl
+    
+    
+    
     
     
     let carts = document.querySelector(".add-cart")
@@ -17,17 +21,27 @@
     
     carts.addEventListener('click', () => {
     
-        let article = {
+        let quantity = document.querySelector('#quantité')
+
+        if (quantity.value > 0 && quantity.value < 100) {
+            let article = {
             name : articleName.innerHTML,
-            price : articlePrice,
-            quantity : 0
+            image : articleImage,
+            price : parseInt(articlePrice)/100,
+            quantity : parseFloat(quantity.value)
             }
         cartNumbers(article)
-            
+        console.log(localStorage.getItem('article'))  
+        totalPrice(article)
+        } else {
+            console.log('erreur')
+        }
+          
         })
         onLoadCartNumbers()
+        
 
-    console.log(localStorage.getItem('article'))
+    
 
 })()
 
@@ -48,17 +62,20 @@ function getArticle(articleId) {
         })
 }
 
-function displayArticle(article) {
+function displayArticle(article, articlePrice) {
     document.getElementById("main").innerHTML += `
-    <div class="card col-2"><a href="Produit.html?id=${article._id}" id="lien_produit">
+    <div class="card col-2">
         <img id="image-article" class="card-img-top" src="${article.imageUrl}" alt="Card image cap">
         <div class="card-body">  
             <h5 id="nom-article" class="card-title">${article.name}</h5>
             <p id="description-article" class="card-text">${article.description}</p>
-            <p id="prix-article" class="card-text">${article.price}</p>
+            <p id="prix-article" class="card-text">${parseInt(article.price)/100}€</p>
+            <p id quantité-article class="card-text">
+            <label for="quantité">Quantité</label>
+            <input type="number" id="quantité" name="quantité" value="1" min="1" max="100"</p>
             <a class="add-cart btn btn-outline-primary" href="#">Ajouter au panier</a>
         </div>
-    </a></div>`
+    </div>`
 }
 
 
@@ -74,26 +91,33 @@ function cartNumbers(article) {
     console.log("le produit est ", article.name)
     let articleNumbers = localStorage.getItem('articleNumbers')
     articleNumbers = parseInt(articleNumbers)
+    
     let articleInCard = []
-
+    
        
-    if(localStorage.getItem("article") !== null && article.quantity !== null){
-        articleInCard[article.quantity] ++
+    if(localStorage.getItem("article") !== null){
         articleInCard = JSON.parse(localStorage.getItem("article"))
-        document.querySelector('.panier span').textContent = articleNumbers + 1
-        localStorage.setItem('articleNumbers', articleNumbers + 1)
+        localStorage.setItem('articleNumbers', articleNumbers + article.quantity)
+        document.querySelector('.panier span').textContent = articleNumbers + article.quantity
     } else {
-        localStorage.setItem('articleNumbers', 1)
+        localStorage.setItem('articleNumbers', article.quantity)
         
         
-        document.querySelector('.panier span').textContent = 1
+        document.querySelector('.panier span').textContent = article.quantity
     } 
     articleInCard.push(article)
     localStorage.setItem("article", JSON.stringify(articleInCard))
-    
-    console.log(articleInCard)
-    
 }
 
+function totalPrice(article) {
+    let cartPrice = localStorage.getItem('totalPrice')
+
+    if(cartPrice != null) {
+        cartPrice = parseInt(cartPrice)
+        localStorage.setItem('totalPrice', cartPrice + article.price * parseInt(article.quantity))
+    } else {
+        localStorage.setItem('totalPrice', article.price * parseInt(article.quantity))
+    }
+}
 
 
