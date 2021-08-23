@@ -2,45 +2,10 @@
 (async function() {
     const articleId = getArticleId()
     const article = await getArticle(articleId)
-    
 
-    console.log(article)
     displayArticle(article)
-
-    
-    const articleName = document.querySelector(".card-title")
-    let articlePrice = article.price
-    const articleImage = article.imageUrl
-    
-    
-    
-    
-    
-    let carts = document.querySelector(".add-cart")
-
-    
-    carts.addEventListener('click', () => {
-    
-        let quantity = document.querySelector('#quantité')
-
-        if (quantity.value > 0 && quantity.value < 100) {
-            let article = {
-            name : articleName.innerHTML,
-            image : articleImage,
-            price : parseInt(articlePrice)/100,
-            quantity : parseFloat(quantity.value)
-            }
-        cartNumbers(article)
-        console.log(localStorage.getItem('article'))  
-        totalPrice(article)
-        } else {
-            console.log('erreur')
-        }
-          
-        })
-        onLoadCartNumbers()
-        
-
+    addToCart(article)
+    onLoadCartNumbers()
     
 
 })()
@@ -62,22 +27,74 @@ function getArticle(articleId) {
         })
 }
 
-function displayArticle(article, articlePrice) {
+function displayArticle(article) {
     document.getElementById("main").innerHTML += `
-    <div class="card col-2">
+    <div class="card p-0 col-9 col-lg-3 col-md-5 col-sm-7">
         <img id="image-article" class="card-img-top" src="${article.imageUrl}" alt="Card image cap">
         <div class="card-body">  
             <h5 id="nom-article" class="card-title">${article.name}</h5>
             <p id="description-article" class="card-text">${article.description}</p>
-            <p id="prix-article" class="card-text">${parseInt(article.price)/100}€</p>
-            <p id quantité-article class="card-text">
-            <label for="quantité">Quantité</label>
+            <p id="prix-article" class="card-text">Prix : ${parseInt(article.price)/100}€</p>
+            <label for="vernis-selct" class="mb-4">vernis :</label>
+
+                <select name="vernis" id="vernis-select">
+                </select>
+
+            <p id="quantité-article" class="card-text mb-4">
+            <label for="quantité" class="mb-4">Quantité : </label>
             <input type="number" id="quantité" name="quantité" value="1" min="1" max="100"</p>
             <a class="add-cart btn btn-outline-primary" href="#">Ajouter au panier</a>
+            <p id="confirmation-text" class="card-text"></p>
         </div>
     </div>`
+
+    let varnishSelect = document.getElementById("vernis-select");
+      for (let i = 0; i < article.varnish.length; i++) {
+        let option = document.createElement("option");
+        option.innerText = article.varnish[i];
+        varnishSelect.appendChild(option)
+      }
 }
 
+function addToCart (article) {
+    const articleName = document.querySelector(".card-title")
+    let articlePrice = article.price
+    const articleId = article._id   
+    const articleImage = article.imageUrl
+    let carts = document.querySelector(".add-cart")
+
+
+    carts.addEventListener('click', () => {
+
+    let quantity = document.querySelector('#quantité')
+
+    if (quantity.value > 0 && quantity.value < 100) {
+
+        let article = {
+        name : articleName.innerHTML,
+        _id : articleId,
+        image: articleImage,
+        price : parseInt(articlePrice)/100,
+        quantity : parseFloat(quantity.value)
+        }
+
+        cartNumbers(article)
+
+        console.log(localStorage.getItem('article'))  
+
+        totalPrice(article)
+
+        document.getElementById("confirmation-text").innerHTML += `le produit a bien été ajouté au panier!`
+        setTimeout("location.reload(true);", 2000)
+
+        } else {
+
+            document.getElementById("confirmation-text").innerHTML += `la quantité doit être comprise entre 1 et 100`
+            setTimeout("location.reload(true);", 2000)
+        }
+        
+    })
+}
 
 function onLoadCartNumbers() {
     let articleNumbers = localStorage.getItem('articleNumbers')

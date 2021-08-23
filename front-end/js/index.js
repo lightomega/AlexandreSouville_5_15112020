@@ -24,12 +24,12 @@ function getArticles() {
 
 function displayArticle(article, articlePrice) {
     document.getElementById("main").innerHTML += `
-    <div class="card col-2"><a href="Produit.html?id=${article._id}" id="lien_produit">
+    <div class="card w-10 p-0 mb-5 mx-2 col-7 col-xl-3 col-lg-5 col-md-5 col-sm-7"><a href="Produit.html?id=${article._id}" id="lien_produit">
         <img id="image-article" class="card-img-top" src="${article.imageUrl}" alt="Card image cap">
         <div class="card-body">  
             <h5 id="nom-article" class="card-title">${article.name}</h5>
             <p id="description-article" class="card-text">${article.description}</p>
-            <p id="prix-article" class="card-text">${articlePrice}€</p>
+            <p id="prix-article" class="card-text">Prix : ${articlePrice}€</p>
         </div>
     </a></div>`
 }

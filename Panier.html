@@ -20,11 +20,55 @@
           </div> 
     </header>
 
-    <div id="main">
+    <div id="main" class="row d-flex flex-wrap justify-content-center">
 
+      </div>
 
-    </div>
+      <p id="total-price" class="text-center"></p>
 
+      <div class="container">
+        <form id="order-form">
+          <div class="row mb-3 justify-content-center">
+            <div class="form-group col-lg-3 col-sm-4 col-6">
+                <label for="firstName">Prénom :</label>
+                <input type="text" id="firstName" class="form-control" name="user_name" required>
+            </div>
+            <div class="form-group col-lg-3 col-sm-4 col-6">
+                <label for="lastName">Nom de famille :</label>
+                <input type="text" id="lastName" class="form-control" name="user_lastname" required>
+            </div>
+          </div>
+          <div class="row mb-3 justify-content-center">
+            <div class="form-group col-lg-6 col-sm-8 col-12">
+                <label for="email">E-mail :</label>
+                <input type="email" id="email" class="form-control" name="user_email" required>
+            </div>
+          </div>
+          <div class="row mb-3 justify-content-center">
+            <div class="form-group col-lg-6 col-sm-8 col-12">
+                <label for="adress">Adresse :</label>
+                <input type="text" id="adress" class="form-control" name="user_adress" required>
+            </div>
+          </div>
+          <div class="row mb-3 justify-content-center">
+            <div class="form-group col-lg-6 col-sm-8 col-12">
+                <label for="city">Ville :</label>
+                <input type="text" id="city" class="form-control" name="user_city" required>
+            </div>
+          </div>
+          
+            <div class="cart-card__form__buttons row mb-3 justify-content-center">
+              <div class="form-group col-lg-6 col-sm-8 col-12">
+              <div id="submit" class="btn btn-primary">Valider la commande</div>
+              <a class="empty-cart btn btn-outline-primary" href="#">Vider le panier</a>
+              </div>
+            </div>
+            <p class="error-form"></p>
+          
+          
+        </form>
+      </div>
+    
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
           <div class="col-12 col-md">
