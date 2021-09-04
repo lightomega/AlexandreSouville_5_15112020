@@ -5,9 +5,9 @@
 })()
 
 function displayOrderId() {
-    const orderId = document.querySelector("#main")
+    const confirmation = document.querySelector("#validation")
 
-    orderId.innerText = localStorage.getItem("orderId")
+    confirmation.innerHTML +=`<p>Votre commande a bien été prise en compte! votre numero de commande est le ${localStorage.getItem("orderId")}` 
 
-    localStorage.clear()
+    
 }

@@ -1,9 +1,11 @@
 (async function() {
-    let articleInLS = JSON.parse(localStorage.getItem("article"))
+    
+
+    
 
     displayCart()
     emptyCart()
-    orderForm(articleInLS)
+    orderForm()
 
 })()
 
@@ -47,13 +49,14 @@ function emptyCart() {
 })
 }
 
-function orderForm(articleInLS){
+function orderForm(){
 
+    let articleInLS = JSON.parse(localStorage.getItem("article"))
     const submit = document.querySelector("#submit")
     let userFirstName = document.querySelector("#firstName")
     let userLastName = document.querySelector("#lastName")
     let userEmail = document.querySelector("#email")
-    let userAdress = document.querySelector("#adress")
+    let userAddress = document.querySelector("#adress")
     let userCity = document.querySelector("#city")
     let formErrorTxt = document.querySelector(".error-form")
 
@@ -62,49 +65,47 @@ function orderForm(articleInLS){
             !userFirstName.value ||
             !userLastName.value ||
             !userEmail.value ||
-            !userAdress.value ||
+            !userAddress.value ||
             !userCity.value
         ) {
             formErrorTxt.innerHTML += "tous les champs ne sont pas remplis !"
-        } else {
             
-            let articleInOrder = []
-            articleInOrder.push(articleInLS)
+        } else {
 
-            console.log(articleInOrder)
-
+           const articleId = []
+           for (let articlesBought of articleInLS){
+                articleId.push(articlesBought._id)
+           }
+           console.log(articleId)
+            
             const order = {
-            contact: {
+                contact: {
                     firstName: userFirstName.value,
                     lastName: userLastName.value,
-                    city: userCity.value,
-                    address: userAdress.value,
                     email: userEmail.value,
+                    address: userAddress.value,
+                    city: userCity.value
                 },
-                products: articleInOrder,
-                
+                products: articleId,
             }
-        
-            
+           
+            console.log(order)
+                const options = {
+                    method: "POST",
+                    body: JSON.stringify(order),
+                    headers: { "Content-Type": "application/json" },
+                }
 
-            const APIRequest = {
-                method: "POST",
-                body: JSON.stringify(order),
-                headers: {"Content-Type": "application/json"},
-            }
+                fetch("http://localhost:3000/api/furniture/order", options)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        localStorage.clear()
+                        console.log(data)
+                        localStorage.setItem("orderId", data.orderId)
 
-            fetch("http://localhost:3000/api/furniture/order", APIRequest)
-                .then((response) => response.json())
-                .then((data) => {
-                    localStorage.clear()
-                    console.log(data)
-                    localStorage.setItem("orderId", data.orderId)
-                    
-                    document.location.href = "Commande_valider.html"
-                })
-            .catch((err) => {
-                alert("Une erreur est survenue :" + err)
-            })    
-        }
-    })
+                        document.location.href = "Commande_valider.html"
+                    })
+            }    
+        })
+
 }

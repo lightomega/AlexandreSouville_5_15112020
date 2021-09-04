@@ -1,10 +1,10 @@
 //On crée une foncrion async pour pouvoir faire un await
 (async function() {
-    const articleId = getArticleId()
-    const article = await getArticle(articleId)
+    const id = getArticleId()
+    const article = await getArticle(id)
 
     displayArticle(article)
-    addToCart(article)
+    addToCart(article, id)
     onLoadCartNumbers()
     
 
@@ -56,10 +56,10 @@ function displayArticle(article) {
       }
 }
 
-function addToCart (article) {
+function addToCart (article, id) {
     const articleName = document.querySelector(".card-title")
     let articlePrice = article.price
-    const articleId = article._id   
+      
     const articleImage = article.imageUrl
     let carts = document.querySelector(".add-cart")
 
@@ -70,19 +70,19 @@ function addToCart (article) {
 
     if (quantity.value > 0 && quantity.value < 100) {
 
-        let article = {
-        name : articleName.innerHTML,
-        _id : articleId,
+        let articleAdded = {
+        name: articleName.innerHTML,
+        _id: id,
         image: articleImage,
-        price : parseInt(articlePrice)/100,
-        quantity : parseFloat(quantity.value)
+        price: parseInt(articlePrice)/100,
+        quantity: parseFloat(quantity.value)
         }
 
-        cartNumbers(article)
+        cartNumbers(articleAdded)
 
         console.log(localStorage.getItem('article'))  
 
-        totalPrice(article)
+        totalPrice(articleAdded)
 
         document.getElementById("confirmation-text").innerHTML += `le produit a bien été ajouté au panier!`
         setTimeout("location.reload(true);", 2000)
@@ -104,8 +104,8 @@ function onLoadCartNumbers() {
     }
 }
 
-function cartNumbers(article) {
-    console.log("le produit est ", article.name)
+function cartNumbers(articleAdded) {
+    console.log("le produit est ", articleAdded.name)
     let articleNumbers = localStorage.getItem('articleNumbers')
     articleNumbers = parseInt(articleNumbers)
     
@@ -114,15 +114,15 @@ function cartNumbers(article) {
        
     if(localStorage.getItem("article") !== null){
         articleInCard = JSON.parse(localStorage.getItem("article"))
-        localStorage.setItem('articleNumbers', articleNumbers + article.quantity)
-        document.querySelector('.panier span').textContent = articleNumbers + article.quantity
+        localStorage.setItem('articleNumbers', articleNumbers + articleAdded.quantity)
+        document.querySelector('.panier span').textContent = articleNumbers + articleAdded.quantity
     } else {
-        localStorage.setItem('articleNumbers', article.quantity)
+        localStorage.setItem('articleNumbers', articleAdded.quantity)
         
         
-        document.querySelector('.panier span').textContent = article.quantity
+        document.querySelector('.panier span').textContent = articleAdded.quantity
     } 
-    articleInCard.push(article)
+    articleInCard.push(articleAdded)
     localStorage.setItem("article", JSON.stringify(articleInCard))
 }
 
