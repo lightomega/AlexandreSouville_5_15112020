@@ -1,7 +1,4 @@
 (async function() {
-    
-
-    
 
     displayCart()
     emptyCart()
@@ -9,12 +6,14 @@
 
 })()
 
-
+/*fonction qui récupère les infos du ls pour les afficher dans la page panier*/
 function displayCart() {
     let cartArticles = localStorage.getItem("article")
     cartArticles = JSON.parse(cartArticles)
 
-    if (cartArticles ) {
+    if (cartArticles) {
+/*si le ls existe on recupère le contenu, qu'on place dans un objet pour
+pouvoir afficher dynamiquement les articles dans le panier*/
         Object.values(cartArticles).map(item => {
             document.getElementById("main").innerHTML +=`
             <div class="card mb-4 mx-2 p-0 col-9 col-xl-1 col-lg-3 col-md-4 col-sm-6">
@@ -27,12 +26,13 @@ function displayCart() {
     </div>
             `
         })
+/*on récuprère le prix total dans le ls pour l'afficher*/
         document.getElementById("total-price").innerHTML += `
         Prix total : ${localStorage.getItem("totalPrice")}€
         `
         
     } else {
-
+/*si le ls est vide on affiche un message avec un lien de redirection*/
         document.getElementById("order-form").hidden = true
         document.getElementById("main").innerHTML += `
         <p class="col-5">Désolé, votre panier est vide! <a href="index.html">retour au choix des articles</a></p>
@@ -40,6 +40,7 @@ function displayCart() {
     }
 }
 
+/*fonction pour vider le panier avec un bouton*/
 function emptyCart() {
     const emptyCart = document.querySelector(".empty-cart")
 
@@ -49,6 +50,7 @@ function emptyCart() {
 })
 }
 
+/*fonction qui va vérifier les données du formulaire et gérer l'envoi à l'API*/
 function orderForm(){
 
     let articleInLS = JSON.parse(localStorage.getItem("article"))
@@ -62,6 +64,7 @@ function orderForm(){
 
     submit.addEventListener("click", () => {
         if (
+/*si tous les champs ne sont pas remplis on affiche un message d'erreur*/
             !userFirstName.value ||
             !userLastName.value ||
             !userEmail.value ||
@@ -71,13 +74,15 @@ function orderForm(){
             formErrorTxt.innerHTML += "tous les champs ne sont pas remplis !"
             
         } else {
-
+/*si le formulaire est bien rempli, on ajoute tous les id des articles,
+contenus dans le ls, dans un tableau*/
            const articleId = []
            for (let articlesBought of articleInLS){
                 articleId.push(articlesBought._id)
            }
            console.log(articleId)
-            
+/*on crée l'objet qui sera envoyé à l'API et qui contient un tableau
+avec les données utilisateurs et un tableau avec les id des articles*/
             const order = {
                 contact: {
                     firstName: userFirstName.value,
@@ -90,17 +95,23 @@ function orderForm(){
             }
            
             console.log(order)
+/*configuration de la requête de type "POST" pour envoyer les
+données à l'API*/
                 const options = {
                     method: "POST",
                     body: JSON.stringify(order),
                     headers: { "Content-Type": "application/json" },
                 }
 
+/*on envoie les données et on récupère le numéro de commande
+que l'API nous renvoie avec un fetch*/
                 fetch("http://localhost:3000/api/furniture/order", options)
                     .then((response) => response.json())
                     .then((data) => {
-                        localStorage.clear()
+                        
                         console.log(data)
+/*on stocke le numero de commande dans le ls et on redirige
+vers la page de validation de commande*/
                         localStorage.setItem("orderId", data.orderId)
 
                         document.location.href = "Commande_valider.html"

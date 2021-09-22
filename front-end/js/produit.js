@@ -1,12 +1,12 @@
 //On crée une foncrion async pour pouvoir faire un await
 (async function() {
+
     const id = getArticleId()
     const article = await getArticle(id)
 
     displayArticle(article)
     addToCart(article, id)
     onLoadCartNumbers()
-    
 
 })()
 
@@ -14,8 +14,8 @@ function getArticleId() {
    return new URL(location.href).searchParams.get("id") 
 }
 
-function getArticle(articleId) {
-    return fetch(`http://localhost:3000/api/furniture/${articleId}`)
+function getArticle(id) {
+    return fetch(`http://localhost:3000/api/furniture/${id}`)
         .then(function(http_idResponse) {
             return http_idResponse.json()
         })
@@ -27,6 +27,7 @@ function getArticle(articleId) {
         })
 }
 
+/*on affiche dynamiquement l'article grace a l'id précédemment récupéré dans l'URL */
 function displayArticle(article) {
     document.getElementById("main").innerHTML += `
     <div class="card p-0 col-9 col-lg-3 col-md-5 col-sm-7">
@@ -56,39 +57,36 @@ function displayArticle(article) {
       }
 }
 
+/*fonction qui va créer les informations pour le panier*/
 function addToCart (article, id) {
-    const articleName = document.querySelector(".card-title")
-    let articlePrice = article.price
-      
-    const articleImage = article.imageUrl
+    
+/*on crée un event listener pour le bouton d'ajout au panier*/
     let carts = document.querySelector(".add-cart")
-
-
     carts.addEventListener('click', () => {
 
     let quantity = document.querySelector('#quantité')
 
     if (quantity.value > 0 && quantity.value < 100) {
-
+/*si la quantité est comprise entre 1 et 100, on créé un objet avec 
+les informations du produit*/
         let articleAdded = {
-        name: articleName.innerHTML,
+        name: article.name,
         _id: id,
-        image: articleImage,
-        price: parseInt(articlePrice)/100,
+        image: article.imageUrl,
+        price: parseInt(article.price)/100,
         quantity: parseFloat(quantity.value)
         }
 
-        cartNumbers(articleAdded)
-
-        console.log(localStorage.getItem('article'))  
-
+/*on execute ensuite les fonctions qui vont stocker l'article ajouté 
+dans le localstorage et on affiche un message de validation*/
+        cartNumbers(articleAdded) 
         totalPrice(articleAdded)
 
         document.getElementById("confirmation-text").innerHTML += `le produit a bien été ajouté au panier!`
         setTimeout("location.reload(true);", 2000)
 
         } else {
-
+/*si la quantité n'est pas correcte, on affiche un message d'erreur*/
             document.getElementById("confirmation-text").innerHTML += `la quantité doit être comprise entre 1 et 100`
             setTimeout("location.reload(true);", 2000)
         }
@@ -96,6 +94,7 @@ function addToCart (article, id) {
     })
 }
 
+/*affichage du compteur du panier*/
 function onLoadCartNumbers() {
     let articleNumbers = localStorage.getItem('articleNumbers')
 
@@ -104,28 +103,35 @@ function onLoadCartNumbers() {
     }
 }
 
+/*ajout des articles au ls et mise à jour du compteur du panier*/
 function cartNumbers(articleAdded) {
-    console.log("le produit est ", articleAdded.name)
+    
     let articleNumbers = localStorage.getItem('articleNumbers')
     articleNumbers = parseInt(articleNumbers)
     
-    let articleInCard = []
+/*on crée le tableau qui contiendra l'objet précédemment créé*/
+    let articleInCart = []
     
        
     if(localStorage.getItem("article") !== null){
-        articleInCard = JSON.parse(localStorage.getItem("article"))
+/*si le ls n'est pas vide on rempli le tableau avec le contenu du ls et on
+met à jour la quantité du panier dans le ls et sur le compteur*/
+        articleInCart = JSON.parse(localStorage.getItem("article"))
         localStorage.setItem('articleNumbers', articleNumbers + articleAdded.quantity)
         document.querySelector('.panier span').textContent = articleNumbers + articleAdded.quantity
     } else {
+/*si le ls est vide on ajoute les nouvelles quantités*/
         localStorage.setItem('articleNumbers', articleAdded.quantity)
         
         
         document.querySelector('.panier span').textContent = articleAdded.quantity
     } 
-    articleInCard.push(articleAdded)
-    localStorage.setItem("article", JSON.stringify(articleInCard))
+/*puis on ajoute le dernier article dans le tableau et on le stocke dans le ls*/
+    articleInCart.push(articleAdded)
+    localStorage.setItem("article", JSON.stringify(articleInCart))
 }
 
+/*calcul du prix total*/
 function totalPrice(article) {
     let cartPrice = localStorage.getItem('totalPrice')
 
