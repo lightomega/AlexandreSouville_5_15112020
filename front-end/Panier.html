@@ -3,31 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="front-end/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
   
-  <script src="front-end/js/panier.js" defer></script>
+  <script src="js/panier.js" defer></script>
   <title>Titre de la page</title>
 </head>
 <body>
-    <header>
-        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-            <h5 class="my-0 mr-md-auto font-weight-normal">OrinocoS</h5>
-            <nav class="my-2 my-md-0 mr-md-3">
-              <a class="p-2 text-dark" href="index.html">Accueil</a>
-              <a class="p-2 text-dark" href="#">Contact</a>
-            </nav>
-            <a class="btn btn-outline-primary" href="#">Panier</a>
-          </div> 
-    </header>
+  <header>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-5 border-bottom shadow-sm">
+      <h5 class="my-0 m-3 font-weight-normal">Orinoco</h5>
+      <nav class=" offset-xl-9 offset-lg-8 offset-md-6">
+        <a class="m-1 text-dark" href="index.html">Accueil</a>
+        <a class="m-1 text-dark" href="#">Contact</a>
+      </nav>
+      <a class="panier btn btn-outline-primary m-2" href="Panier.html">Panier</a>
+    </div> 
+  </header>  
 
-    <div id="main" class="row d-flex flex-wrap justify-content-center">
-
-      </div>
-
+    <div id="main" class="row d-flex flex-wrap justify-content-center py-4 h-100">
+      <div id="articles" class="row d-flex flex-wrap justify-content-center p-auto"></div>
       <p id="total-price" class="text-center"></p>
 
       <div class="container">
-        <form id="order-form">
+        <form id="order-form" class="d-flex flex-column">
           <div class="row mb-3 justify-content-center">
             <div class="form-group col-lg-3 col-sm-4 col-6">
                 <label for="firstName">Prénom :</label>
@@ -59,29 +57,26 @@
           
             <div class="cart-card__form__buttons row mb-3 justify-content-center">
               <div class="form-group col-lg-6 col-sm-8 col-12">
-              <div id="submit" class="btn btn-primary">Valider la commande</div>
-              <a class="empty-cart btn btn-outline-primary" href="#">Vider le panier</a>
+                <div id="submit" class="btn btn-primary">Valider la commande</div>
+                <a class="empty-cart btn btn-outline-primary" href="#">Vider le panier</a>
               </div>
             </div>
-            <p class="error-form"></p>
+            <p class="error-form col align-self-center"></p>
           
           
         </form>
       </div>
+    </div>
+
+      
     
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-          <div class="col-12 col-md">
-            <img class="mb-2" src="../assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
-            <small class="d-block mb-3 text-muted">&copy; 2017-2020</small>
-          </div>
-          <div class="col-6 col-md">
-            <h5>Contact</h5>
-          </div>
-          <div class="col-6 col-md">
-            <h5>Mentions légales</h5>
-          </div>
-        </div>
+    <footer class="py-4 pl-4 pt-md-5 border-top d-flex flex-md-row">
+      <div class="p-4 col-3">
+        <h5>Contact</h5>
+      </div>
+      <div class="p-4 col-3 col-md-4 offset-5 d-flex justify-content-end">
+        <h5>Mentions légales</h5>
+      </div>
     </footer>
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

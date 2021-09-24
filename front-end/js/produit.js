@@ -1,4 +1,3 @@
-//On crée une foncrion async pour pouvoir faire un await
 (async function() {
 
     const id = getArticleId()
@@ -10,10 +9,12 @@
 
 })()
 
+/*on récupère l'id du produit présent dans l'url*/
 function getArticleId() {
    return new URL(location.href).searchParams.get("id") 
 }
 
+/*on récupère uniquement l'article correspondant à l'id*/
 function getArticle(id) {
     return fetch(`http://localhost:3000/api/furniture/${id}`)
         .then(function(http_idResponse) {
@@ -30,7 +31,7 @@ function getArticle(id) {
 /*on affiche dynamiquement l'article grace a l'id précédemment récupéré dans l'URL */
 function displayArticle(article) {
     document.getElementById("main").innerHTML += `
-    <div class="card p-0 col-9 col-lg-3 col-md-5 col-sm-7">
+    <div class="card p-0 my-5 col-9 col-lg-3 col-md-5 col-sm-7">
         <img id="image-article" class="card-img-top" src="${article.imageUrl}" alt="Card image cap">
         <div class="card-body">  
             <h5 id="nom-article" class="card-title">${article.name}</h5>
@@ -59,7 +60,7 @@ function displayArticle(article) {
 
 /*fonction qui va créer les informations pour le panier*/
 function addToCart (article, id) {
-    
+    let confirmation = document.getElementById("confirmation-text")
 /*on crée un event listener pour le bouton d'ajout au panier*/
     let carts = document.querySelector(".add-cart")
     carts.addEventListener('click', () => {
@@ -82,12 +83,14 @@ dans le localstorage et on affiche un message de validation*/
         cartNumbers(articleAdded) 
         totalPrice(articleAdded)
 
-        document.getElementById("confirmation-text").innerHTML += `le produit a bien été ajouté au panier!`
+        confirmation.innerHTML += `le produit a bien été ajouté au panier!`
+        confirmation.style.color = "green"
         setTimeout("location.reload(true);", 2000)
 
         } else {
 /*si la quantité n'est pas correcte, on affiche un message d'erreur*/
-            document.getElementById("confirmation-text").innerHTML += `la quantité doit être comprise entre 1 et 100`
+            confirmation.innerHTML += `la quantité doit être comprise entre 1 et 100`
+            confirmation.style.color = "red"
             setTimeout("location.reload(true);", 2000)
         }
         
@@ -142,5 +145,3 @@ function totalPrice(article) {
         localStorage.setItem('totalPrice', article.price * parseInt(article.quantity))
     }
 }
-
-

@@ -10752,3 +10752,16 @@ textarea.form-control-lg {
 .panier span {
   padding-left: 5px;
 }
+header, footer {
+  background-color: #Ccdeff;
+}
+#main {
+  width: 100%;
+  min-height: 42rem;
+}
+#order-form {
+  padding-left: 1rem;
+}
+.redirection-message {
+  min-height: 30rem;
+}

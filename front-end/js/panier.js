@@ -15,16 +15,15 @@ function displayCart() {
 /*si le ls existe on recupère le contenu, qu'on place dans un objet pour
 pouvoir afficher dynamiquement les articles dans le panier*/
         Object.values(cartArticles).map(item => {
-            document.getElementById("main").innerHTML +=`
-            <div class="card mb-4 mx-2 p-0 col-9 col-xl-1 col-lg-3 col-md-4 col-sm-6">
-        <img id="image-article" class="card-img-top" src="${item.image}" alt="Card image cap">
-        <div class="card-body">  
-            <h5 id="nom-article" class="card-title">${item.name}</h5>
-            <p id="prix-article" class="card-text">prix : ${item.price}€</p>
-            <p id quantité-article class="card-text">Quantité : ${item.quantity}</p>
-        </div>
-    </div>
-            `
+            document.getElementById("articles").innerHTML +=`
+            <div class="card mb-4 mx-2 p-0 col-9 col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <img id="image-article" class="card-img-top" src="${item.image}" alt="Card image cap">
+                <div class="card-body">  
+                    <h5 id="nom-article" class="card-title">${item.name}</h5>
+                    <p id="prix-article" class="card-text">prix : ${item.price}€</p>
+                    <p id quantité-article class="card-text">Quantité : ${item.quantity}</p>
+                </div>
+            </div>`
         })
 /*on récuprère le prix total dans le ls pour l'afficher*/
         document.getElementById("total-price").innerHTML += `
@@ -33,9 +32,9 @@ pouvoir afficher dynamiquement les articles dans le panier*/
         
     } else {
 /*si le ls est vide on affiche un message avec un lien de redirection*/
-        document.getElementById("order-form").hidden = true
+        document.querySelector(".container").hidden = true
         document.getElementById("main").innerHTML += `
-        <p class="col-5">Désolé, votre panier est vide! <a href="index.html">retour au choix des articles</a></p>
+        <div class="redirection-message card mb-5 pt-4 col-9 d-flex align-items-center justify-content-center"><p>Désolé, votre panier est vide! <a href="index.html">retour au choix des articles</a></p></div>
         `
     }
 }
@@ -63,6 +62,8 @@ function orderForm(){
     let formErrorTxt = document.querySelector(".error-form")
 
     submit.addEventListener("click", () => {
+        checkEmail(userEmail)
+        console.log(checkEmail(userEmail))
         if (
 /*si tous les champs ne sont pas remplis on affiche un message d'erreur*/
             !userFirstName.value ||
@@ -71,8 +72,12 @@ function orderForm(){
             !userAddress.value ||
             !userCity.value
         ) {
-            formErrorTxt.innerHTML += "tous les champs ne sont pas remplis !"
-            
+            formErrorTxt.innerHTML = "tous les champs ne sont pas remplis !"
+            formErrorTxt.style.color = "red"
+/*si le champ email n'est pas correct, on affiche encore un message d'erreur*/
+        } else if (checkEmail(userEmail) == false) {
+            formErrorTxt.innerHTML = "veuillez entrer un email valide!"
+            formErrorTxt.style.color = "red"
         } else {
 /*si le formulaire est bien rempli, on ajoute tous les id des articles,
 contenus dans le ls, dans un tableau*/
@@ -114,9 +119,15 @@ que l'API nous renvoie avec un fetch*/
 vers la page de validation de commande*/
                         localStorage.setItem("orderId", data.orderId)
 
-                        document.location.href = "Commande_valider.html"
+                        document.location.href = "Commande_validation.html"
                     })
             }    
         })
 
+}
+
+function checkEmail(userEmail) {
+    let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (!reg.test(userEmail.value)) return false;
+    return true;
 }

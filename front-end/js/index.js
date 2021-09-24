@@ -22,7 +22,9 @@ function getArticles() {
            return articles
         })
         .catch(function(error) {
-            alert(error)
+            document.getElementById("main").innerHTML += `
+            <p class="col-4">Erreur de chargement!<p>
+            `
         })
 }
 
@@ -30,12 +32,11 @@ function getArticles() {
 de la fonction qui affiche les articles et on passe l'id du produit dans l'URL*/
 function displayArticle(article, articlePrice) {
     document.getElementById("main").innerHTML += `
-    <div class="card w-10 p-0 mb-5 mx-2 col-7 col-xl-3 col-lg-5 col-md-5 col-sm-7"><a href="Produit.html?id=${article._id}" id="lien_produit">
-        <img id="image-article" class="card-img-top" src="${article.imageUrl}" alt="Card image cap">
+    <div class="card w-10 p-0 mb-5 mx-4 col-7 col-xl-3 col-lg-5 col-md-5 col-sm-7"><a href="Produit.html?id=${article._id}" id="lien_produit" class="text-decoration-none">
+        <div class="test"><img id="image-article" class="card-img-top" src="${article.imageUrl}" alt="Card image cap"></div>
         <div class="card-body">  
-            <h5 id="nom-article" class="card-title">${article.name}</h5>
-            <p id="description-article" class="card-text">${article.description}</p>
-            <p id="prix-article" class="card-text">Prix : ${articlePrice}€</p>
+            <h5 id="nom-article" class="card-title text-decoration-underline text-dark">${article.name}</h5>
+            <p id="prix-article" class="card-text text-dark">Prix : ${articlePrice}€</p>
         </div>
     </a></div>`
 }
