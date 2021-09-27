@@ -15,4 +15,4 @@ pour pouvoir utiliser le projet et faire en sorte que les pages s'affichent corr
   
   -puis ecexuter la commande "node server.js"
  
-une fois tout cela fait, le back end tourne et le site est pret à etre utilisé.
+une fois tout cela fait, le back end tourne et le site est pret à etre utilisé on ouvrant le fichier index.html du dossier front-end dans un navigateur
