@@ -44,7 +44,7 @@ function displayArticle(article) {
 
             <p id="quantité-article" class="card-text mb-4">
             <label for="quantité" class="mb-4">Quantité : </label>
-            <input type="number" id="quantité" name="quantité" value="1" min="1" max="100"</p>
+            <input type="number" id="quantité" name="quantité" value="1" min="1" max="100">
             <a class="add-cart btn btn-outline-primary" href="#">Ajouter au panier</a>
             <p id="confirmation-text" class="card-text"></p>
         </div>

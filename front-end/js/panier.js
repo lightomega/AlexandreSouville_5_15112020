@@ -21,7 +21,7 @@ pouvoir afficher dynamiquement les articles dans le panier*/
                 <div class="card-body">  
                     <h5 id="nom-article" class="card-title">${item.name}</h5>
                     <p id="prix-article" class="card-text">prix : ${item.price}€</p>
-                    <p id quantité-article class="card-text">Quantité : ${item.quantity}</p>
+                    <p id="quantité-article" class="card-text">Quantité : ${item.quantity}</p>
                 </div>
             </div>`
         })
