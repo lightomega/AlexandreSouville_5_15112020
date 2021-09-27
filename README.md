@@ -7,9 +7,9 @@ pour pouvoir utiliser le projet et faire en sorte que les pages s'affichent corr
 
   -installer node si cela n'est pas fait (version la plus récente en LTS)
   
-  -cloner le dossier du projet depuis github (depuis un invite de commande avec la commande "git clone https://github.com/lightomega/AlexandreSouville_5_15112020.git")
+  -cloner le dossier du projet depuis github (depuis un invite de commande avec la commande "git clone https://github.com/lightomega/AlexandreSouville_5_15112020.git" ou bien en téléchargeant le .ZIP)
   
-  -une fois le dossier téléchargé ouvrir un invite de commande et se rendre à l'emplacement du dossier back-end du projet("cd <chemin vers le dossier>/Projet_5/back-end")
+  -une fois le dossier cloné ouvrir un invite de commande et se rendre à l'emplacement du dossier back-end du projet("cd <chemin vers le dossier>/Projet_5/back-end")
   
   -installer les dépendances du back avec la commande "npm install"
   
